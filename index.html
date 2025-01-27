@@ -4,178 +4,139 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>My Recent Projects</title>
+    <title>Safouat</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
-        /* Global Styles */
-        body {
-            font-family: 'Poppins', sans-serif;
+        * {
             margin: 0;
             padding: 0;
-            background-color: #12031F;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            overflow-x: hidden;
             color: #F5F5F5;
+        }
+
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
         }
 
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 4rem 1rem;
-        }
-
-        .container1 {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            padding: 20px;
-            flex-wrap: wrap;
+            position: relative;
         }
 
         .profile-card {
             display: flex;
             flex-direction: column;
-            border-radius: 10px;
-            overflow: hidden;
-            width: 100%;
-            margin: 20px;
-        }
-
-        @media (min-width: 768px) {
-            .profile-card {
-                flex-direction: row;
-            }
-        }
-
-        .profile-image {
-            width: 100%;
-            max-width: 300px;
-            height: auto;
+            align-items: center;
+            text-align: center;
+            margin-bottom: 4rem;
         }
 
         .profile-image img {
-            width: 100%;
-            height: 100%;
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
             object-fit: cover;
-        }
-
-        .profile-info {
-            padding: 20px;
-            text-align: center;
-        }
-
-        @media (min-width: 768px) {
-            .profile-info {
-                padding: 40px;
-                text-align: left;
-            }
+            border: 4px solid #7E5BEF;
         }
 
         .profile-info h1 {
-            font-size: 24px;
-            margin-bottom: 10px;
-            background: linear-gradient(to right, #7b1fa2, #671b9a);
+            font-size: 2.5rem;
+            margin: 1rem 0;
+            background: linear-gradient(90deg, #7E5BEF, #AEAEAE);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
 
         .profile-info h2 {
-            font-size: 18px;
-            color: #b3b3b3;
-            margin-bottom: 20px;
+            font-size: 1.25rem;
+            color: #AEAEAE;
+            margin-bottom: 1rem;
         }
 
         .profile-info p {
-            font-size: 14px;
-            line-height: 1.5;
-            margin-bottom: 20px;
+            font-size: 1rem;
+            line-height: 1.6;
+            color: #AEAEAE;
+            max-width: 600px;
+            margin: 0 auto;
         }
 
         .contact-buttons {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            align-items: center;
-        }
-
-        @media (min-width: 768px) {
-            .contact-buttons {
-                flex-direction: row;
-                justify-content: space-between;
-            }
+            margin-top: 1.5rem;
         }
 
         .contact-btn {
-            background-color: #7b1fa2;
-            color: #fff;
+            background: linear-gradient(90deg, #7E5BEF, #5A41B5);
+            color: #F5F5F5;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
             text-decoration: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            transition: background-color 0.3s;
+            font-weight: 600;
+            transition: transform 0.3s ease;
         }
 
         .contact-btn:hover {
-            background-color: #4a0072;
+            transform: translateY(-3px);
         }
 
         .social-links {
-            display: flex;
-            gap: 10px;
+            margin-top: 1rem;
         }
 
         .social-link {
-            color: #b3b3b3;
-            font-size: 24px;
-            transition: color 0.3s;
+            color: #AEAEAE;
+            font-size: 1.5rem;
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
         }
 
         .social-link:hover {
-            color: #fff;
-        }
-
-        /* Header Styles */
-        header {
-            text-align: center;
-            margin-bottom: 4rem;
+            color: #7E5BEF;
         }
 
         .header-title {
             font-size: 2.5rem;
             font-weight: 700;
             color: #7E5BEF;
+            text-align: center;
+            margin-bottom: 1rem;
         }
 
         .header-subtitle {
             font-size: 1.25rem;
             color: #AEAEAE;
+            text-align: center;
+            margin-bottom: 2rem;
         }
 
-        /* Project Section Styles */
         .project-section {
             display: grid;
-            grid-template-columns: 1fr;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 2rem;
         }
 
-        @media (min-width: 600px) {
-            .project-section {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (min-width: 1024px) {
-            .project-section {
-                grid-template-columns: repeat(3, 1fr);
-            }
-        }
-
         .project-card {
-            background-color: #1F1D2B;
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             border-radius: 1rem;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             overflow: hidden;
-            transition: transform 0.3s ease-in-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         .project-card:hover {
-            transform: translateY(-0.5rem);
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
         }
 
         .project-image {
@@ -192,6 +153,7 @@
             font-size: 1.5rem;
             font-weight: 600;
             margin-bottom: 1rem;
+            color: #7E5BEF;
         }
 
         .project-description {
@@ -202,40 +164,40 @@
 
         .watch-demo {
             display: inline-block;
-            background-color: #7E5BEF;
+            background: linear-gradient(90deg, #7E5BEF, #5A41B5);
             color: #F5F5F5;
             padding: 0.5rem 1rem;
             border-radius: 0.5rem;
             text-decoration: none;
             font-weight: 600;
+            transition: transform 0.3s ease;
         }
 
         .watch-demo:hover {
-            background-color: #5A41B5;
+            transform: translateX(5px);
         }
 
-        /* Technology Filters */
         .technology-filters {
             display: flex;
             flex-wrap: wrap;
             justify-content: center;
-            margin-bottom: 2rem;
             gap: 10px;
+            margin-bottom: 2rem;
         }
 
         .technology-filters button {
-            background-color: transparent;
+            background: transparent;
             color: #AEAEAE;
             border: 1px solid #7E5BEF;
             padding: 0.5rem 1rem;
-            font-size: 0.875rem;
-            font-weight: 600;
-            cursor: pointer;
             border-radius: 0.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
         .technology-filters button.active {
-            color: #7E5BEF;
+            background: #7E5BEF;
+            color: #F5F5F5;
         }
 
         .text-center {
@@ -245,16 +207,101 @@
         .mt-8 {
             margin-top: 2rem;
         }
-    </style>
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+        /* Mini Projects Section Styling */
+        .mini-projects-header {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .mini-projects-header h1 {
+            font-size: 2rem;
+            color: #7E5BEF;
+        }
+
+        .mini-projects-header p {
+            font-size: 1rem;
+            color: #AEAEAE;
+        }
+
+        .github-style-projects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            padding: 1rem;
+        }
+
+        .github-repo-card {
+            background: #0D1117;
+            border: 1px solid #30363D;
+            border-radius: 6px;
+            padding: 1.5rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .github-repo-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+        }
+
+        .repo-content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .repo-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #58A6FF;
+            margin: 0;
+        }
+
+        .repo-description {
+            font-size: 0.875rem;
+            color: #8B949E;
+            margin: 0;
+        }
+
+        .repo-meta {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-top: 0.5rem;
+        }
+
+        .repo-language {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: #8B949E;
+        }
+
+        .language-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .repo-link {
+            font-size: 0.875rem;
+            color: #58A6FF;
+            text-decoration: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .repo-link:hover {
+            opacity: 0.8;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
 <body>
-    <div class="container1">
+    <canvas id="bg"></canvas>
+    <div class="container">
         <div class="profile-card">
             <div class="profile-image">
                 <img src="WhatsApp Image 2024-11-17 at 14.19.39.jpeg" alt="Profile Image">
@@ -268,8 +315,7 @@
                     adapt to new technologies to drive impactful results.</p>
                 <div class="contact-buttons">
                     <a href="https://www.linkedin.com/in/safouat-el-yassini-89147627a" target="_blank"
-                        class="contact-btn">Contact
-                        Me</a>
+                        class="contact-btn">Contact Me</a>
                     <div class="social-links">
                         <a href="#" class="social-link"><i class="fab fa-instagram"></i></a>
                         <a href="#" class="social-link"><i class="fab fa-linkedin"></i></a>
@@ -278,100 +324,108 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="container">
+
         <header>
             <h1 class="header-title">My Recent Projects</h1>
             <p class="header-subtitle">Showcasing my work in various technologies</p>
         </header>
 
-        <div class="technology-filters">
-            <button class="active">All</button>
-            <button>JAVA</button>
-            <button>JEE</button>
-            <button>Spring</button>
-            <button>Laravel</button>
-            <button>React</button>
-            <button>Three.JS</button>
-            <button>Blender</button>
-            <button>Unity</button>
-            <button>Laravel</button>
-            <button>DevOps</button>
-            <button>YOLO</button>
-
-
-
-        </div>
 
         <div class="project-section">
             <div class="project-card">
-                <img src="medical123.jpg" alt="Agency Website" class="project-image">
+                <img src="medical123.jpg" alt="MedicalAI" class="project-image">
                 <div class="project-content">
                     <h2 class="project-title">MedicalAI</h2>
                     <p class="project-description">A medical assistant application that helps users identify potential
-                        causes of their symptoms and treatments. </p>
+                        causes of their symptoms and treatments.</p>
                     <a href="https://www.youtube.com/watch?v=8m3J_EltlWw" target="_blank" class="watch-demo">Watch
                         Demo</a>
                 </div>
             </div>
 
             <div class="project-card">
-                <img src="Screenshot from 2024-11-13 16-46-08.png" alt="Konosuba: An Explosion on This Wonderful World!"
+                <img src="404664114-50852c86-49da-4d45-9358-2fadcae6d7e2.png" alt="FlappyBird Dyslexia"
                     class="project-image">
                 <div class="project-content">
-                    <h2 class="project-title">FlappyBird dyslexia</h2>
-                    <p class="project-description">Designing a version of Flappy Bird for players with dyslexia </p>
-                    <a href="https://drive.google.com/file/d/1oTYDcrqBWweDNpemOc4lsGVF9PrA-w5q/view" target="_blank"
+                    <h2 class="project-title">E-commerce Plateform with Review Analaysis</h2>
+                    <p class="project-description">E-commerce platform with advanced features, including Seller Review
+                        Analysis to improve decision-making. </p>
+                    <a href="https://github.com/safouat/ECommerce-Spring-CoreNLP-React" target="_blank"
                         class="watch-demo">Watch Demo</a>
                 </div>
             </div>
 
             <div class="project-card">
-                <img src="xzusuzrfdwvunxdk546x.png" alt="Secure Your Rental in Minutes" class="project-image">
+                <img src="xzusuzrfdwvunxdk546x.png" alt="PainCare" class="project-image">
                 <div class="project-content">
                     <h2 class="project-title">PainCare</h2>
-                    <p class="project-description">A platform for diagnostic and track the evolution of Endometriosis
-                        patients</p>
+                    <p class="project-description">A platform for diagnostic and tracking the evolution of Endometriosis
+                        patients.</p>
                     <a href="https://github.com/safouat/PainCare" target="_blank" class="watch-demo">Watch Demo</a>
                 </div>
             </div>
 
 
-            <div class="project-card">
-                <img src="Screenshot from 2024-11-13 16-56-25.png" alt="Track Your Journey, Seek Professional Guidance"
-                    class="project-image">
-                <div class="project-content">
-                    <h2 class="project-title">Computer Vision Project</h2>
-                    <p class="project-description">This project focuses on developing a multi-task computer vision
-                        system to classify
-                        and detect multiple replicas of specific fruits and vegetables within a single image.</p>
-                    <a href="https://github.com/safouat/YOLO-FastAPI-CV" target="_blank" class="watch-demo">Watch
-                        Demo</a>
+        </div>
+        <!-- Mini Projects Section -->
+        <header class="mini-projects-header">
+            <h1 class="header-title">Mini Projects</h1>
+            <p class="header-subtitle">A collection of smaller projects showcasing my skills</p>
+        </header>
+
+        <div class="github-style-projects">
+            <!-- Mini Project 1 -->
+
+
+            <!-- Mini Project 2 -->
+
+            <div class="github-repo-card">
+                <div class="repo-content">
+                    <h2 class="repo-title">Network Automation</h2>
+                    <p class="repo-description">Speed Up and automate various network configurations of Cisco devices
+                        using NAPALM and Netmiko in GNS3 or Real network.</p>
+                    <div class="repo-meta">
+                        <span class="repo-language">
+                            <span class="language-color" style="background-color: #4F5D95;"></span>
+                            Python
+                        </span>
+                        <a href="https://github.com/safouat/Network-Automation-Toolkitp" target="_blank"
+                            class="repo-link">View on
+                            GitHub</a>
+                    </div>
                 </div>
             </div>
 
-
-            <div class="project-card">
-                <img src="246690359-f61a0bac-323d-4a60-82e9-df2079d03b44.png" alt="Save The Date: JAPAN DAY X"
-                    class="project-image">
-                <div class="project-content">
-                    <h2 class="project-title">Real Estate App</h2>
-                    <p class="project-description">This Laravel app enables users to authenticate, manage their profile
-                        and posts, like and comment on posts, and schedule appointments. It also includes a notification
-                        system and confirmation emails. The admins can analyze performance using data and graphs. </p>
-                    <a href="https://github.com/safouat/Real-Estate-App" target="_blank" class="watch-demo">Watch
-                        Demo</a>
+            <!-- Mini Project 3 -->
+            <div class="github-repo-card">
+                <div class="repo-content">
+                    <h2 class="repo-title">CI/CD Pipelines</h2>
+                    <p class="repo-description">A collection of pipelines for Angular, Spring Boot, React, JavaEE,
+                        and Laravel projects using Jenkins, Docker, and SonarQube.</p>
+                    <div class="repo-meta">
+                        <span class="repo-language">
+                            <span class="language-color" style="background-color: #B07219;"></span>
+                            Java
+                        </span>
+                        <a href="https://github.com/safouat/Jenkins-Pipelines" target="_blank" class="repo-link">View on
+                            GitHub</a>
+                    </div>
                 </div>
             </div>
 
-            <div class="project-card">
-                <img src="Screenshot from 2024-11-13 17-14-49.png" alt="Anime Gallery" class="project-image">
-                <div class="project-content">
-                    <h2 class="project-title">CI/CD Pipelines</h2>
-                    <p class="project-description">A collection of several pipelines I created for Angular, Spring Boot,
-                        React, JavaEE, and Laravel projects using Jenkins, Docker, and SonarQube </p>
-                    <a href="https://github.com/safouat/Jenkins-Pipelines" target="_blank" class="watch-demo">Watch
-                        Demo</a>
+            <div class="github-repo-card">
+                <div class="repo-content">
+                    <h2 class="repo-title">Computer Vision Project</h2>
+                    <p class="repo-description">A multi-task computer vision system to classify and detect multiple
+                        replicas of specific fruits and vegetables within a single image.</p>
+                    <div class="repo-meta">
+                        <span class="repo-language">
+                            <span class="language-color" style="background-color: #3572A5;"></span>
+                            Python
+                        </span>
+                        <a href="https://github.com/safouat/YOLO-FastAPI-CV" target="_blank" class="repo-link">View on
+                            GitHub</a>
+                    </div>
                 </div>
             </div>
         </div>
@@ -380,6 +434,95 @@
             <a href="https://github.com/safouat" class="watch-demo">Explore More Projects!</a>
         </div>
     </div>
+
+    <script>
+        // Three.js Scene Setup
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.querySelector('#bg'),
+            antialias: true
+        });
+
+        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        camera.position.setZ(30);
+
+        // Create a more dynamic particle system
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 10000; // Increased number of particles
+        const posArray = new Float32Array(particlesCount * 3);
+
+        for (let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 500; // Spread particles further
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+
+        // Create material for particles with a glowing effect
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.4,
+            color: '#7E5BEF',
+            blending: THREE.AdditiveBlending,
+            transparent: true,
+            sizeAttenuation: true
+        });
+
+        // Create points
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        // Add ambient light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+
+        // Add directional light for depth
+        const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
+        directionalLight.position.set(1, 1, 1);
+        scene.add(directionalLight);
+
+        // Mouse movement effect
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+            mouseY = -(event.clientY / window.innerHeight) * 2 + 1;
+        });
+
+        // Animation
+        function animate() {
+            requestAnimationFrame(animate);
+
+            // Rotate particle system
+            particlesMesh.rotation.x += 0.001;
+            particlesMesh.rotation.y += 0.001;
+
+            // Add mouse interaction
+            camera.position.x += (mouseX * 10 - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY * 10 - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
+            // Make particles move in a wave-like pattern
+            const positions = particlesMesh.geometry.attributes.position.array;
+            for (let i = 0; i < positions.length; i += 3) {
+                positions[i] += Math.sin(Date.now() * 0.001 + positions[i] * 0.01) * 0.1;
+                positions[i + 1] += Math.cos(Date.now() * 0.001 + positions[i + 1] * 0.01) * 0.1;
+            }
+            particlesMesh.geometry.attributes.position.needsUpdate = true;
+
+            renderer.render(scene, camera);
+        }
+
+        animate();
+
+        // Handle window resize
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+    </script>
 </body>
 
 </html>
